@@ -1,0 +1,62 @@
+*{
+  margin: 0;
+}
+
+body{
+  height: 100vh;
+}
+
+#root{
+  height: inherit;
+}
+
+.addProductForm{
+  width: 500px;
+  margin: auto;
+}
+
+.home.main-container{
+  height: 100vh;
+}
+
+.searchResults{ 
+  width: 100%;
+  background-color: white;
+}
+
+.item:hover{
+  background-color: gainsboro;
+}
+
+.addedItems{
+  padding: 20px;
+  border: 1px solid rgb(0,0,0,0.4);
+  border-radius: 10px;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.addedItems::-webkit-scrollbar{
+  width: 0;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 2px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.Preview .container{
+  border: 1px solid black;
+  width: 800px;
+}
+
+.Preview .row{
+  text-align: center;
+}
