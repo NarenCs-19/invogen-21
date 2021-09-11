@@ -1,8 +1,7 @@
-// import * as dotenv from 'dotenv';
-// dotenv.config();
 import express, { Router } from 'express';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 const app = express();
 const router = Router();
@@ -23,6 +22,12 @@ var connection = mysql.createConnection({
 connection.connect((err)=>{
     if(!err) 
     console.log('connected');
+});
+
+app.get('/*',(req,res)=>{
+    console.log(__dirname); 
+    res.send(__dirname);
+    //res.sendFile(path.join(__dirname,'./Client/public/index.html');
 });
 
 app.get('/products',function(req,res){
@@ -73,7 +78,7 @@ app.get('/search',function(req,res){
 app.use("/",router);
 let port = process.env.PORT;
 if(port == null || port == "")
-    port = 3000;
+    port = 5000;
 app.listen(port,()=>{
     console.log("Listening at the port "+port);
 });

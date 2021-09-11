@@ -5,7 +5,7 @@ import {Plus, Dash, X, ArrowClockwise} from 'react-bootstrap-icons';
 function AddedItems(props) {
     const [count, setCount] = useState(1);
 
-    useEffect(()=>{
+    useEffect(()=>{ 
         //console.log(count);
         props.updateHandler(count,props.productName);
     },[count]);
