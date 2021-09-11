@@ -73,7 +73,7 @@ app.get('/search',function(req,res){
 app.use("/",router);
 let port = process.env.PORT;
 if(port == null || port == "")
-    port = 5000;
+    port = 3000;
 app.listen(port,()=>{
     console.log("Listening at the port "+port);
 });
