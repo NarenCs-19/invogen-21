@@ -1,3 +1,5 @@
+// import * as dotenv from 'dotenv';
+// dotenv.config();
 import express, { Router } from 'express';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
@@ -19,7 +21,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect((err)=>{
-    if(!err)
+    if(!err) 
     console.log('connected');
 });
 
@@ -69,5 +71,10 @@ app.get('/search',function(req,res){
 
  
 app.use("/",router);
-app.listen(5000);
+let port = process.env.PORT;
+if(port == null || port == "")
+    port = 5000;
+app.listen(port,()=>{
+    console.log("Listening at the port "+port);
+});
  
