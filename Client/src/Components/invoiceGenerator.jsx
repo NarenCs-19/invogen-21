@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
-import axios from "axios";
 import ItemComponent from "./ItemComponent";
 import AddedItems from "./AddedItems";
+import axios from "axios";
 
 function InvoiceGenerator() {
   const [searchValue, setSearchValue] = useState("");
@@ -14,10 +14,9 @@ function InvoiceGenerator() {
   const previewClickHandler = () => {
     items.length > 0 &&
       history.push({
-        pathname: "/preview",
-        state: items,
-      });
-  };
+        pathname:"/preview",
+        state:items
+  })};
 
   const handleChange = (event) => {
     setSearchValue(event.target.value);

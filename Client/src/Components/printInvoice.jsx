@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
 import {Button} from 'react-bootstrap';
+import { useLocation } from 'react-router';
 import {useReactToPrint} from 'react-to-print';
 import InvoicePreview from './invoicePreview';
 
 const PrintInvoice = (props) => {
-  const items = props.location.state;
+  const location = useLocation();
+  const items = location.state;
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content:()=>componentRef.current
