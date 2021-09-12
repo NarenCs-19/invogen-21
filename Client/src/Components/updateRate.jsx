@@ -5,18 +5,22 @@ import axios from 'axios';
 function UpdateRate() {
     const [productId, setId] = useState(0);
     const [rate, setRate] = useState(0);
+    const [brate, setBRate] = useState(0);
 
     //event when the add button is clicked 
     const updateHandler = async(event)=>{
         event.preventDefault();
         let dataToBeUpdated = {
                 id : productId,
-                price : rate
+                price : rate,
+                brate : brate
         };  
+        //console.log(dataToBeUpdated);
         await axios.post("/updateRate/update",dataToBeUpdated)
         .then(()=>{
             setId(0); 
             setRate(0);
+            setBRate(0);
         })
         .catch((err)=>console.log(err));
         
@@ -32,6 +36,10 @@ function UpdateRate() {
         setRate(event.target.value);
     };  
 
+    const bRateHandler = (event) => {
+        setBRate(event.target.value);
+    };  
+
     return (
         <div className="addProductForm my-3">
             <Form>
@@ -43,10 +51,14 @@ function UpdateRate() {
                     <Form.Label>RATE</Form.Label>
                     <Form.Control type="number"  name="rate" placeholder="Enter Price"  value={rate} onChange={priceHandler}/>
                 </Form.Group>
+                <Form.Group className="mb-3" controlId="productBPrice">
+                    <Form.Label>BRATE</Form.Label>
+                    <Form.Control type="number"  name="brate" placeholder="Enter BRate"  value={brate} onChange={bRateHandler}/>
+                </Form.Group>
             </Form>
             <Container className="buttons text-center">
                 <Button variant="primary" className="mx-3" onClick={updateHandler}> UPDATE </Button>
-                <Button href="/products" className="mx-3" variant="secondary"> BACK </Button>
+                <Button href="/#/products" className="mx-3" variant="secondary"> BACK </Button>
             </Container>
         </div>
     )

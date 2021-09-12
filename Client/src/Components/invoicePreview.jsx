@@ -1,8 +1,10 @@
 import React from "react";
 import { Container, Row, Col} from "react-bootstrap";
+import { useLocation } from "react-router";
 import PreviewComponent from "./PreviewComponent";
 
 const InvoicePreview = React.forwardRef((props,ref)=>{
+    const location = useLocation();
     const items = props.items;
     const total = items.map((item) => item.amount).reduce((a, b) => a + b);
 

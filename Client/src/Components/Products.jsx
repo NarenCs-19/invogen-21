@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import {Button} from "react-bootstrap";
+import {Button, Link} from "react-bootstrap";
 import MaterialTable from "material-table";
 import axios from "axios";
 
@@ -24,10 +24,12 @@ function Products() {
 
   useEffect(() => {
     getProducts();
+    console.log("product component");
   }, []);
 
   const getProducts = async () => {
     const {data} = await axios.get("/products");
+    console.log(data);
     setUserData(data);
   };
 
@@ -35,9 +37,9 @@ function Products() {
   return (
     <>
     <MaterialTable title="Products" data={data} columns={columns}/>
-    <Button href="/addProducts" className="m-3" variant="primary">Add Products</Button>
-    <Button href="/updateRate" className="m-3" variant="primary">Update Rate</Button>
-    <Button href="/" className="m-3" variant="secondary"> Back </Button>
+    <Button href="/#/addProducts" className="m-3" variant="primary">Add Products</Button>
+    <Button href="/#/updateRate" className="m-3" variant="primary">Update Rate</Button>
+    <Button href="/#/" className="m-3" variant="secondary"> Back </Button>
     </>
   );
 }

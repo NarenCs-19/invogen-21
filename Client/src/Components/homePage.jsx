@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Row, Col} from "react-bootstrap";
 import InvoiceGenerator from "./invoiceGenerator";
 
 function homePage() {
@@ -13,7 +13,7 @@ function homePage() {
         </Row>
         <Row>
           <Col lg="3" className="m-auto text-center">
-          <Button href="/products" className="m-3">See Products</Button>
+          <Button href="/#/products" className="m-3" >See Products</Button>
           </Col>
         </Row>
       </Container>
