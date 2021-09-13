@@ -3,7 +3,7 @@ import {Button, Container, Form} from "react-bootstrap";
 import axios from 'axios';
 
 function UpdateRate() {
-    const [productId, setId] = useState(0);
+    const [prod, setProd] = useState("");
     const [rate, setRate] = useState(0);
     const [brate, setBRate] = useState(0);
 
@@ -11,14 +11,14 @@ function UpdateRate() {
     const updateHandler = async(event)=>{
         event.preventDefault();
         let dataToBeUpdated = {
-                id : productId,
+                prod : prod,
                 price : rate,
                 brate : brate
         };  
         //console.log(dataToBeUpdated);
         await axios.post("/updateRate/update",dataToBeUpdated)
         .then(()=>{
-            setId(0); 
+            setProd(""); 
             setRate(0);
             setBRate(0);
         })
@@ -27,8 +27,8 @@ function UpdateRate() {
     }
 
     //controlling product input 
-    const idHandler = (event) => {
-        setId(event.target.value);
+    const prodHandler = (event) => {
+        setProd(event.target.value);
     };
 
     //controlling rate or price input 
@@ -44,8 +44,8 @@ function UpdateRate() {
         <div className="addProductForm my-3">
             <Form>
                 <Form.Group className="mb-3" controlId="productName">
-                    <Form.Label>PRODUCT ID</Form.Label>
-                    <Form.Control type="number" name="productName" placeholder="Enter Product Id" value={productId} onChange={idHandler}/>
+                    <Form.Label>PRODUCT NAME</Form.Label>
+                    <Form.Control type="text" name="productName" placeholder="Enter Product name" value={prod} onChange={prodHandler}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="productPrice">
                     <Form.Label>RATE</Form.Label>

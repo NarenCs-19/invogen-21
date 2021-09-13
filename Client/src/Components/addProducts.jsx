@@ -17,7 +17,8 @@ function AddProducts() {
         };  
         console.log(dataToBeAdded);
         await axios.post("/addProducts/add",dataToBeAdded)
-        .then(()=>{
+        .then((res)=>{
+            console.log(res);
             setProductName("");
             setRate(0);
             setBRate(0);

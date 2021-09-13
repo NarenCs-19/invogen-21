@@ -5,21 +5,18 @@ import axios from "axios";
 
 function Products() {
   const [data, setUserData] = useState([]);
-  const columns = [{
-    title: "ID",
-    field: "ID",
-  },
+  const columns = [
   {
     title: "PRODUCT",
-    field: "PRODUCT",
+    field: "productName",
   },
   {
     title: "BRATE",
-    field: "BRATE",
+    field: "brate",
   },
   {
     title: "RATE",
-    field: "RATE",
+    field: "rate",
   }];
 
   useEffect(() => {
