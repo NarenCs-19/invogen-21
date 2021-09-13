@@ -7,9 +7,14 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-var corsOptions = {
-    origin:"http://localhost:3000"
-}
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authentication");
+    next();
+});
+app.options('*', cors())
+app.use(cors());
+
 const app = express();
 const router = Router();
 
