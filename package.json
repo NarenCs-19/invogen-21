@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app.js",
-    "client": "npm start --prefix Client"
+    "client": "npm start --prefix Client",
+    "heroku-postbuild":"cd Client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

@@ -7,25 +7,29 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authentication");
-    next();
-});
-app.options('*', cors())
-app.use(cors());
-
+var CorsOptions = {
+    origin:"http://localhost:3000/"
+}
 const app = express();
 const router = Router();
 
-app.use(cors(corsOptions));
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authentication");
+//     next();
+// });
+// app.options('*', cors())
+// app.use(cors());
+
+app.use(cors(CorsOptions));
+
 // support parsing of application/json type post data
 app.use(bodyParser.json());
 
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb+srv://cluster0.k6nod.mongodb.net/Productsdb",{auth:{username:"NarenCs-19",password:"Alrsn@63679602"},authSource:"admin",useUnifiedTopology: true, useNewUrlParser: true})
+mongoose.connect(process.env.MONGODB_URI,{auth:{username:"NarenCs-19",password:"Alrsn@63679602"},authSource:"admin",useUnifiedTopology: true, useNewUrlParser: true})
 .then(() => console.log("Database connected!"))
 .catch(err => console.log(err));
 
