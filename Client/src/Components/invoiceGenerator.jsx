@@ -62,12 +62,17 @@ function InvoiceGenerator() {
   //fetching search results
   useEffect(() => {
     const fetchData = async () => {
-      let { data } = await axios.get("/search?searchValue=" + searchValue);
-      if (searchValue) setResults(data);
-      else setResults([]);
-      //console.log(results);
+      await axios.get("/search?searchValue=" + searchValue)
+      .then(({data})=>{
+        console.log(data);
+        if (searchValue) setResults(data);
+        else setResults([]);
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     };
-    if (searchValue !== "") fetchData();
+    if(searchValue !== "") fetchData();
   }, [searchValue]);
 
   return (
@@ -86,12 +91,12 @@ function InvoiceGenerator() {
           </Form>
           <div className="searchResults">
             {searchValue &&
-              results.map((result) => {
+              results.map((result,idx) => {
                 return (
                   <ItemComponent
-                    key={result.ID}
-                    productName={result.PRODUCT}
-                    rate={result.RATE}
+                    key={idx+1}
+                    productName={result.productName}
+                    rate={result.rate}
                     addHandler={addItemHandler}
                   />
                 );

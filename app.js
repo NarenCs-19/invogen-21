@@ -1,41 +1,48 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Router } from 'express';
-import mysql from 'mysql';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
-var corsOptions = {
-    origin:"http://localhost:3000"
-}
+// var CorsOptions = {
+//     origin:"http://localhost:3000/"
+// }
 const app = express();
 const router = Router();
 
-app.use(cors(corsOptions));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authentication");
+    next();
+});
+app.options('*', cors())
+app.use(cors());
+
+//app.use(cors(CorsOptions));
+
 // support parsing of application/json type post data
 app.use(bodyParser.json());
 
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '',
-    database : 'test'
-});
+mongoose.connect(process.env.MONGODB_URI,{auth:{username:"NarenCs-19",password:"Alrsn@63679602"},authSource:"admin",useUnifiedTopology: true, useNewUrlParser: true})
+.then(() => console.log("Database connected!"))
+.catch(err => console.log(err));
 
-connection.connect((err)=>{
-    if(!err) 
-    console.log('connected');
-});
+var productSchema = new mongoose.Schema({
+    productName: String,
+    rate: Number,
+    brate: Number
+}); 
 
+var products = new mongoose.model('products',productSchema);
 
-app.get('/products',function(req,res){
-    //console.log("hi");
-    connection.query("SELECT * FROM PRODUCTS ORDER BY PRODUCT ASC",(err,result)=>{
+app.get('/products',async(req,res)=>{
+    await products.find({}).sort({productName:'asc'}).exec((err,result)=>{
         if(!err){
             //console.log("sent");
             res.send(result);
@@ -43,39 +50,46 @@ app.get('/products',function(req,res){
         else 
             console.log("error");
     });
+});  
+
+app.post('/addProducts/add',async(req,res)=>{
+    const {prod,price,brate} = req.body;
+    //console.log(req.body);
+    try{
+        const item = new products({
+            productName:prod,
+            rate:price,
+            brate:brate
+        });
+        await item.save();
+        res.send("Successfully inserted");
+    }
+    catch(err){
+        console.log(err.message);
+    }
 }); 
 
-app.post('/addProducts/add',function(req,res){
-    const {prod,price,bRate} = req.body;
-    connection.query("INSERT INTO PRODUCTS(PRODUCT,RATE,BRATE) VALUES ('"+prod+"','"+price+"','"+bRate+"')",(err,result)=>{
-        if(err){
-            console.log(err);
-        }
-        else 
-            res.send(req.body);
-    });
-});
-
-app.post('/updateRate/update',function(req,res){
-    const {id,price,brate} = req.body;
-    connection.query("UPDATE PRODUCTS SET RATE = ?, BRATE = ? WHERE ID = ?",[price,brate,id],(err,result)=>{
-        if(err){
-            console.log(err);
-        }
-        else 
-            res.send(req.body);
-    });
+app.post('/updateRate/update',async(req,res)=>{
+    const {prod,price,brate} = req.body;
+    await products.updateOne({productName:prod},{rate:price,brate:brate})
+    .then(()=>{
+        console.log("updated succesfully");
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
 }); 
 
-app.get('/search',function(req,res){
+app.get('/search',async(req,res)=>{
     const q = req.query.searchValue;
     console.log(q);
-    connection.query("SELECT * FROM PRODUCTS WHERE PRODUCT LIKE '"+ q+"%'",(err,result)=>{
-        if(err)
-            console.log(err);
-        else
-            res.send(result);
-    }); 
+    await products.find({productName:{$regex:"^"+q,$options:"i"}})
+    .then((result)=>{
+        res.send(result);
+    }) 
+    .catch((err)=>{
+        console.log(err);
+    })
 }); 
 
 const __dirname = path.resolve(path.dirname(''));
