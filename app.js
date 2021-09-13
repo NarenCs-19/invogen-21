@@ -7,21 +7,21 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-var CorsOptions = {
-    origin:"http://localhost:3000/"
-}
+// var CorsOptions = {
+//     origin:"http://localhost:3000/"
+// }
 const app = express();
 const router = Router();
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authentication");
-//     next();
-// });
-// app.options('*', cors())
-// app.use(cors());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authentication");
+    next();
+});
+app.options('*', cors())
+app.use(cors());
 
-app.use(cors(CorsOptions));
+//app.use(cors(CorsOptions));
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());
