@@ -65,7 +65,7 @@ function InvoiceGenerator() {
   //fetching search results
   useEffect(() => {
     const fetchData = async () => {
-      await axios.get("http://localhost:5000/search?searchValue=" + searchValue)
+      await axios.get("/search?searchValue=" + searchValue)
       .then(({data})=>{
         if (searchValue) setResults(data);
         else setResults([]);
