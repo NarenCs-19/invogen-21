@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import {Button, Link} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import MaterialTable from "material-table";
 import axios from "axios";
 
@@ -11,11 +11,11 @@ function Products() {
     field: "productName",
   },
   {
-    title: "BRATE",
+    title: "PURCHASE RATE",
     field: "brate",
   },
   {
-    title: "RATE",
+    title: "SALE RATE",
     field: "rate",
   }];
 

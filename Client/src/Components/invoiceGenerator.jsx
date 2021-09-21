@@ -9,13 +9,14 @@ function InvoiceGenerator() {
   const [searchValue, setSearchValue] = useState("");
   const [results, setResults] = useState([]);
   const [items, setItems] = useState([]);
+  const [isEstimate, setIsEstimate] = useState(true);
   const history = useHistory();
 
   const previewClickHandler = () => {
     items.length > 0 &&
       history.push({
         pathname:"/preview",
-        state:items
+        state:{items:items,isEstimate:isEstimate}
   })};
 
   const handleChange = (event) => {
@@ -27,34 +28,36 @@ function InvoiceGenerator() {
     return items.findIndex((item) => item.productName === name);
   };
 
+  //item gets added when the product is clicked in search results
   const addItemHandler = (item) => {
     const data = {
       productName: item.productName,
       rate: item.rate,
       quantity: 1,
       amount: item.rate,
+      GST: 0
     };
 
     if (isExist(item.productName) === -1) setItems([...items, data]);
     else {
-      alert("already added");
+      console.log("already added");
     }
     //console.log(items);
   };
 
-  //gets triggered whenever the quantity increases
-  const updateQuantity = (count, name) => {
+  //gets triggered whenever the quantity and rate changes
+  const updateHandler = (count, rate, GST, name) => {
     let ind = isExist(name); //returns index of the element
     let data = [...items];
     data[ind].quantity = count;
-    data[ind].amount = count * data[ind].rate;
+    data[ind].rate = rate;
+    data[ind].amount = count * rate;
+    data[ind].GST = GST* data[ind].amount;
     setItems(data);
-    //console.log(items);
   };
 
   //removing an item
   const removeItem = (name) => {
-    //console.log(name);
     let data = items.filter((item) => item.productName !== name);
     setItems(data);
   };
@@ -62,9 +65,8 @@ function InvoiceGenerator() {
   //fetching search results
   useEffect(() => {
     const fetchData = async () => {
-      await axios.get("/search?searchValue=" + searchValue)
+      await axios.get("http://localhost:5000/search?searchValue=" + searchValue)
       .then(({data})=>{
-        console.log(data);
         if (searchValue) setResults(data);
         else setResults([]);
       })
@@ -72,7 +74,10 @@ function InvoiceGenerator() {
         console.log(err);
       })
     };
-    if(searchValue !== "") fetchData();
+    if(searchValue !== "") {
+      setResults([]);
+      fetchData();
+    }
   }, [searchValue]);
 
   return (
@@ -106,6 +111,7 @@ function InvoiceGenerator() {
         <Col lg={7} className="addedItems my-3 text-center">
           <div>
             <h3 className="text-center text-uppercase">Added items</h3>
+            <div>Total items added: {items.length}</div>
             {items &&
               items.map((item, idx) => (
                 <AddedItems
@@ -114,13 +120,19 @@ function InvoiceGenerator() {
                   rate={item.rate}
                   quantity={item.quantity}
                   removeHandler={removeItem}
-                  updateHandler={updateQuantity}
+                  updateHandler={updateHandler}
                 />
               ))}
           </div>
           <Button onClick={previewClickHandler} className="my-3">
             Preview
           </Button>
+          <Row className="invoiceType">
+            <Col>
+                <Button variant="outline-dark" className="invoiceTypeBtn mx-3" onClick={()=>setIsEstimate(false)}>Invoice</Button>
+                <Button variant="outline-dark" className="invoiceTypeBtn mx-3" onClick={()=>setIsEstimate(true)}>Estimate</Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>

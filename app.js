@@ -82,11 +82,11 @@ app.post('/updateRate/update',async(req,res)=>{
 
 app.get('/search',async(req,res)=>{
     const q = req.query.searchValue;
-    console.log(q);
-    await products.find({productName:{$regex:"^"+q,$options:"i"}})
+    //console.log(q);
+    await products.find({productName:{$regex:q,$options:"i"}})
     .then((result)=>{
         res.send(result);
-    }) 
+    })  
     .catch((err)=>{
         console.log(err);
     })
