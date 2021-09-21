@@ -48,12 +48,12 @@ function UpdateRate() {
                     <Form.Control type="text" name="productName" placeholder="Enter Product name" value={prod} onChange={prodHandler}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="productPrice">
-                    <Form.Label>RATE</Form.Label>
-                    <Form.Control type="number"  name="rate" placeholder="Enter Price"  value={rate} onChange={priceHandler}/>
+                    <Form.Label>SALE RATE</Form.Label>
+                    <Form.Control type="number"  name="rate" placeholder="Enter Sale Price"  value={rate} onChange={priceHandler}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="productBPrice">
-                    <Form.Label>BRATE</Form.Label>
-                    <Form.Control type="number"  name="brate" placeholder="Enter BRate"  value={brate} onChange={bRateHandler}/>
+                    <Form.Label>PURCHASE RATE</Form.Label>
+                    <Form.Control type="number"  name="brate" placeholder="Enter Purchase Rate"  value={brate} onChange={bRateHandler}/>
                 </Form.Group>
             </Form>
             <Container className="buttons text-center">
